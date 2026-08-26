@@ -1,5 +1,6 @@
 //app.js
 
+
 // app.js
 // Front-end
 
@@ -69,7 +70,11 @@ function sair() {
     document.getElementById("usuario").focus();
 }
 
+
+
 //server.js
+
+
 
 
 /* 
@@ -120,7 +125,11 @@ function autenticar(login, senha) {
 }
 iniciarBanco();
 
+
+
 //style.css
+
+
 
 * {
     box-sizing: border-box;
@@ -160,19 +169,14 @@ body {
     padding: 10px;
 }
 
-button {
-    width: 100%;
-    padding: 10px;
-}
-
 .login button {
     width: 100%;
     padding: 10px;
-    cursos: pointer;
+    cursor: pointer;
 }
 
 #mensagem {
-    widht: 80%;
+    width: 80%;
     max-width: 900px;
     margin: 30px auto;
 }
@@ -193,12 +197,16 @@ button {
 }
 
 .sucesso {
-    color: #1b5e20
-    fo nt-weight: bold;
+    color: #1b5e20;
+    font-weight: bold;
 }
 
 
+
+
 //index.html
+
+
 
 Index.html:
 <!DOCTYPE html>
