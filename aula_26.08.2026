@@ -1,0 +1,236 @@
+//app.js
+
+// app.js
+// Front-end
+
+function entrar() {
+
+    // Captura de dados
+    let login = document.getElementById("usuario").value;
+    let senha = document.getElementById("senha").value;
+
+    if (login.trim() === "" || senha.trim() === "") {
+        mostrarErro("Informe o usuário e a senha.");
+        return;
+    }
+    // Solicita autentificação ao servidor simulado
+    let resposta = autenticar(login, senha);
+
+    // Trata a resposta
+    if (resposta.sucesso) {
+        carregarPagina(resposta.usuario);
+        document.getElementById(
+            "mensagem"
+        ).innerHTML = "";
+    } else {
+        mostrarErro(resposta.mensagem);
+    }
+}
+
+// Cria uma parte da pagina dinamiamente
+function carregarPagina(usuario) {
+
+    let conteudo = document.getElementById("conteudo");
+
+    conteudo.innerHTML = ` 
+        <div class="pagina">
+            <h2> Bem-Vindo, ${usuario.nome}!</h2>
+
+            <p class="sucesso">
+                Login realizado com sucesso.
+            </p>
+
+            <hr>
+
+            <h3>Dados do usuário</h3>
+
+            <p><strong>Nome:</strong> ${usuario.nome}</p>
+            <p><strong>Curso:</strong> ${usuario.curso}</p>
+            <p><strong>Turma:</strong> ${usuario.turma}</p>
+            <p><strong>Usuário:</strong> ${usuario.login}</p>
+
+            <button type="button" onclicl="sair()">sair</button>
+        </div>
+  `;
+
+  document.getElementById("mensagem").innerHTML = "";
+}
+
+function mostrarErro(mensagem) {
+    document.getElementById("mensagem").innerHTML = mensagem;
+    document.getElementById("conteudo").innerHTML = "";
+}
+
+function sair() {
+    document.getElementById("conteudo").innerHTML = "";
+    document.getElementById("usuario").value = "";
+    document.getElementById("senha").value = "";
+    document.getElementById("mensagem").innerHTML = "";
+    document.getElementById("usuario").focus();
+}
+
+//server.js
+
+
+/* 
+este arquivo apenas SIMULA o lado de SERVIDOR
+Todo JS roda do lado cliente (Navegador)
+*/
+
+let usuarioInicial = {
+    nome: "Carlos Silva",
+    login: "carlos",
+    senha: "123",
+    curso: "Desenvolvimento de Sistemas"
+}
+
+//iniciar o Banco de dados virtual
+function iniciarBanco(){
+    let usuarioSalvo = localStorage.getItem("usuario");
+
+    if(usuarioSalvo === null) {
+        "usuario", JSON.stringify(usuarioInicial);
+    }
+}
+
+//Função recebe os dados de autenticar usuario
+function autenticar(login, senha) {
+    let dados = localStorage.getItem("usuario");
+    if (dados === null) {
+        return {
+            sucesso: false,
+            mensagem: "Usuário não encontrado"
+        };
+    }
+
+    let usuario = JSON.parse(dados);
+
+    if (login === usuario.login && senha === usuario.senha) {
+        return {
+            sucesso: true, 
+            mensagem: "Login realizado com sucesso",
+            usuario: usuario
+        }
+    }
+
+    return {
+        sucesso: false,
+        mensagem: "Usuário ou senha inválidos"
+    }
+}
+iniciarBanco();
+
+//style.css
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #eee;
+    margin: 0
+}
+
+.login {
+    width: 400px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: white;
+}
+
+.login h1 {
+    color: darkblue;
+    text-align: center;
+}
+
+.campo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.campo label {
+    width: 80px;
+    display: inline-block;
+}
+
+.campo input {
+    width: 100%;
+    padding: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+}
+
+.login button {
+    width: 100%;
+    padding: 10px;
+    cursos: pointer;
+}
+
+#mensagem {
+    widht: 80%;
+    max-width: 900px;
+    margin: 30px auto;
+}
+
+#conteudo {
+    width: 80%;
+    max-width: 900px;
+    margin: 30px auto;
+}
+
+.pagina {
+    background-color: white;
+    padding: 30px;
+}
+
+.pagina h2 {
+    color: darkblue;
+}
+
+.sucesso {
+    color: #1b5e20
+    fo nt-weight: bold;
+}
+
+
+//index.html
+
+Index.html:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programação WebII</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div class="login">
+        <h1>Programação Web II</h1>
+        <h2>Login</h2>
+        <div class="campo">
+            <label>Username:</label>
+            <input type="text" type="Username" id="usuario" placeholder="Entre com seu usuário">
+        </div>
+        <div class="campo">
+            <label>Password:</label>
+            <input type="text" type="password" id="senha" placeholder="Entre com sua senha">
+        </div>
+        <button onclick="entrar()">Entrar</button>
+
+        <P id="mensagem"></P>
+
+    </div>
+    <div id="conteudo"></div>
+
+    <script src="server.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
